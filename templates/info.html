@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+       <span>ID: {{ ctx.0 }}</span> 
+       <p><span>MARCA TEMPORAL: {{ ctx.1 }}</span></p> 
+       <p><span>MATRICULA: {{ ctx.2 }}</span></p> 
+       <p><span>NOMBRE: {{ ctx.3 }}</span></p> 
+       <p><span>FECHA NACIMIENTO: {{ ctx.6 }}</span></p> 
+       <p><span>CATEGORIA: {{ ctx.7 }}</span></p> 
+       <p><span>ADSCRIPCIÓN: {{ ctx.8 }}</span></p> 
+      </div>
+      <div class="col">
+       <p><span>ADSCRIPCIÓN ANTERIOR: {{ ctx.9 }}</span></p> 
+       <p><span>TURNO: {{ ctx.10 }}</span></p> 
+       <p><span>DOMICILIO: {{ ctx.11 }}</span></p> 
+       <p><span>COLONIA: {{ ctx.12 }}</span></p> 
+       <p><span>MUNICIPIO: {{ ctx.13 }}</span></p> 
+       <p><span>SECCIONAL: {{ ctx.14 }}</span></p> 
+       <p><span># CELULAR: {{ ctx.15 }}</span></p> 
+       <p><span>CORREO: {{ ctx.16 }}</span></p> 
+      </div>
+      <div class="col">
+      {{ ctx.2 }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
