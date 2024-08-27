@@ -12,7 +12,7 @@ def list(request):
     if request.method == 'GET':
         cnx = sqlite3.connect('db.sqlite3')
         cur = cnx.cursor()
-        cur.execute('select * from basep1')
+        cur.execute('select * from estructurasApp_basep1')
         ctx =  cur.fetchall()
         cur.close()
         cnx.close()
@@ -27,7 +27,7 @@ def info(request, field1):
     if request.method == 'GET':
         cnx = sqlite3.connect('db.sqlite3')
         cur = cnx.cursor()
-        cur.execute('SELECT * FROM basep1 WHERE field1 = ?', [field1,])
+        cur.execute('SELECT * FROM estructurasApp_basep1 WHERE field1 = ?', [field1,])
         ctx = cur.fetchone()
         print(ctx)
         if not ctx:
@@ -35,3 +35,7 @@ def info(request, field1):
         cur.close()
         cnx.close()
     return render(request, 'info.html', {'ctx': ctx, 'title': title, 'error': error})
+
+def search(request):
+    pass
+

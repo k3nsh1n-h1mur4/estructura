@@ -10,16 +10,17 @@
     <div class="error">{{ error }}</div>
   {% endif %}
 
-  <div class="container mt-5">
+  <div class="container mt-5" style="border: 2px solid; padding: 15px;">
     <div class="row">
       <div class="col">
-       <p><span>ID: {{ ctx.0 }}</span></p>
+       <p><span>ID: </span>{{ ctx.0 }}</p>
        <p><span>MARCA TEMPORAL: {{ ctx.1 }}</span></p> 
        <p><span>MATRICULA: {{ ctx.2 }}</span></p> 
        <p><span>NOMBRE: {{ ctx.3 }}</span></p> 
        <p><span>FECHA NACIMIENTO: {{ ctx.6 }}</span></p> 
        <p><span>CATEGORIA: {{ ctx.7 }}</span></p> 
        <p><span>ADSCRIPCIÓN: {{ ctx.8 }}</span></p> 
+
       </div>
       <div class="col">
        <p><span>ADSCRIPCIÓN ANTERIOR: {{ ctx.9 }}</span></p> 

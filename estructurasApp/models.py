@@ -2,6 +2,9 @@ from django.db import models
 
 
 class basep1(models.Model):
+    class Meta:
+        __tablename__ = 'basep1'
+
     field1 = models.CharField(max_length=250)
     Marcatemporal = models.CharField(max_length=250)
     MATRICULA = models.CharField(max_length=250)
