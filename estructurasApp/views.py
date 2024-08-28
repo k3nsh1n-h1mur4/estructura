@@ -1,11 +1,21 @@
 import sqlite3
 from django.shortcuts import render, redirect, HttpResponse
+from django.core.paginator import Paginator
 
-from .forms import SearchForm 
+from .forms import SearchForm, RegistroForm 
 
 def index(request):
     return HttpResponse('Index de la página')
     
+
+def registro(request):
+    title = 'Registro'
+    error = None
+    form = RegistroForm(request.POST)
+
+    return render(request, 'register.html', {'title': title, 'form': form, 'error': error})
+
+
 
 def list(request):
     error = None
@@ -17,7 +27,13 @@ def list(request):
         ctx =  cur.fetchall()
         cur.close()
         cnx.close()
-    return render(request, 'listado.html', {'ctx': ctx, 'title': title})
+        p = Paginator(ctx, 15)
+        page_number = request.GET.get("page")
+        page_obj = p.get_page(page_number)
+        print(p)
+        print(p.num_pages)
+        print(page_obj)
+    return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj, 'p': p})
 
 
 def info(request, field1):

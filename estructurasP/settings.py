@@ -120,7 +120,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    '/Users/k3nsh1n/Dev/estructuras/estructurasP/static/',
+    #'/Users/k3nsh1n/Dev/estructuras/estructurasP/static/',
+    'C:/Users/jazyi/Dev/estructura/static/',
 ]
 
 # Default primary key field type
