@@ -1,6 +1,7 @@
 import sqlite3
 from django.shortcuts import render, redirect, HttpResponse
 
+from .forms import SearchForm 
 
 def index(request):
     return HttpResponse('Index de la página')
@@ -37,5 +38,16 @@ def info(request, field1):
     return render(request, 'info.html', {'ctx': ctx, 'title': title, 'error': error})
 
 def search(request):
-    pass
-
+    title = 'Buscar'
+    error = None
+    
+    form = SearchForm(request.GET)
+    q = request.GET.get('q', 'default')
+    cnx = sqlite3.connect('db.sqlite3')
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM estructurasApp_basep1 WHERE MATRICULA=?", [q,])
+    row = cur.fetchone()
+    cur.close()
+    cnx.close()
+    print(row)
+    return render(request, 'search.html', {'form': form, 'ctx': row})

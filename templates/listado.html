@@ -20,12 +20,12 @@
           <tbody>
             {% for ctx in ctx %}
             <tr>
-              <th scope="row">{{ ctx.0 }}</th>
-              <td>{{ ctx.2 }}</td>
+              <td>{{ ctx.1 }}</td>
               <td>{{ ctx.3 }}</td>
+              <td>{{ ctx.4 }}</td>
               <td>
                 <div class="info">
-                  <a href="{% url 'info' ctx.0 %}">Ver Información</a>
+                  <a href="{% url 'info' ctx.1 %}">Ver Información</a>
                 </div>
               </td>
             </tr>
