@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class basep1(models.Model):
@@ -33,4 +34,4 @@ class basep1(models.Model):
     PROMOCION= models.CharField(max_length=250)
     MOVILIZACION= models.CharField(max_length=250)
     MIRESPONSABLE= models.CharField(max_length=250)
-
+    UserID = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank = True)

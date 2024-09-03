@@ -17,6 +17,9 @@ def registro(request):
     title = 'Registro'
     error = None
     form = RegistroForm(request.POST)
+    if request.method == 'POST': 
+        pass
+        
 
     return render(request, 'register.html', {'title': title, 'form': form, 'error': error})
 
@@ -69,18 +72,17 @@ def list(request):
     error = None
     title = 'Listado General'
     if request.method == 'GET':
+        print(request.session.get('_auth_user_id'))
+        id = request.session.get('_auth_user_id')
         cnx = sqlite3.connect('db.sqlite3')
         cur = cnx.cursor()
-        cur.execute('select * from estructurasApp_basep1')
+        cur.execute('SELECT * FROM estructurasApp_basep1 INNER JOIN auth_user WHERE estructurasApp_basep1.UserID_id = auth_user.id AND auth_user.id=?',[id,])
         ctx =  cur.fetchall()
         cur.close()
         cnx.close()
         paginator = Paginator(ctx, 15)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
-        print(paginator)
-        print(paginator.num_pages)
-        print(page_obj)
     return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj})
 
 

@@ -6,8 +6,16 @@
 
 
 {% block content %}
-{{ user.get_username }}
+
+<div class="container">
+    <div class="row">
+	<div class="col">
+	    <span style="font-size: 18px; color: red;">Usuario Actual:</span>{{ user.get_username }}
 {% if user.is_authenticated %}
+	</div>
+    </div>
+</div>
+     
   <div class="container">
     <div class="row">
       <div class="col">
@@ -58,8 +66,5 @@
   {% else %}
     <h1>Error</h1>
   {% endif %}
-
-
-
 
 {% endblock %}
