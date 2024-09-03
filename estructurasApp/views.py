@@ -1,17 +1,18 @@
 import sqlite3
 from django.shortcuts import render, redirect, HttpResponse
 from django.core.paginator import Paginator
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
 from .forms import SearchForm, RegistroForm 
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.forms import AuthenticationForm 
 
 def index(request):
     return HttpResponse('Index de la página')
     
-
+@login_required
 def registro(request):
     title = 'Registro'
     error = None
@@ -24,8 +25,10 @@ def login(request):
     title = 'LogIn'
     error = None
     form = AuthenticationForm(request.POST)
+    print(form)
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
+        print(form)
         m = User.objects.get(username=request.POST['username'])
         print(m)
         if m.check_password(request.POST['password']):
@@ -41,9 +44,16 @@ def login(request):
         print(username)
         user = authenticate(request, username=username, password=password)
         login(request)
+        print(request)
         if user:
             print('Auth')
-    return render(request, 'registration/logint.html', {'title': title, 'error': error, 'form': form})
+    return render(request, 'registration/logint.html', {'title': title, 'error': error, 'form': form, 'user': user})
+
+@login_required
+def logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
 
 
 def profile(request):
@@ -54,7 +64,7 @@ def profile(request):
 
 
 
-
+@login_required
 def list(request):
     error = None
     title = 'Listado General'
@@ -65,15 +75,16 @@ def list(request):
         ctx =  cur.fetchall()
         cur.close()
         cnx.close()
-        p = Paginator(ctx, 15)
+        paginator = Paginator(ctx, 15)
         page_number = request.GET.get("page")
-        page_obj = p.get_page(page_number)
-        print(p)
-        print(p.num_pages)
+        page_obj = paginator.get_page(page_number)
+        print(paginator)
+        print(paginator.num_pages)
         print(page_obj)
-    return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj, 'p': p})
+    return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj})
 
 
+@login_required
 def info(request, field1):
     field1 = field1
     print(field1)
@@ -91,6 +102,7 @@ def info(request, field1):
         cnx.close()
     return render(request, 'info.html', {'ctx': ctx, 'title': title, 'error': error})
 
+@login_required
 def search(request):
     title = 'Buscar'
     error = None

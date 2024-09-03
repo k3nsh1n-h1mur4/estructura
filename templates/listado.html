@@ -6,6 +6,8 @@
 
 
 {% block content %}
+{{ user.get_username }}
+{% if user.is_authenticated %}
   <div class="container">
     <div class="row">
       <div class="col">
@@ -18,7 +20,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for ctx in ctx %}
+            {% for ctx in page_obj %}
             <tr>
               <td>{{ ctx.1 }}</td>
               <td>{{ ctx.3 }}</td>
@@ -43,7 +45,7 @@
 		    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 		</span>
     
-		{% if page_onj.has_next %}
+		{% if page_obj.has_next %}
 		    <a href="?page={{ page_obj.next_page_number }}"> next</a>
 		    <a href="?page={{ page_obj.paginator.num_pages }}"> last &raquo;</a>
 		{% endif %}
@@ -53,6 +55,10 @@
       </div>
     </div>
   </div>
+  {% else %}
+    <h1>Error</h1>
+  {% endif %}
+
 
 
 
