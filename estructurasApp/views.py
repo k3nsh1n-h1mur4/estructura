@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password, make_password
-from .forms import SearchForm, RegistroForm 
+from .forms import SearchForm, RegistroForm, RegistroEditForm 
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.forms import AuthenticationForm 
@@ -33,7 +33,6 @@ def login(request):
         form = AuthenticationForm(request.POST)
         print(form)
         m = User.objects.get(username=request.POST['username'])
-        print(m)
         if m.check_password(request.POST['password']):
             request.session['username'] = m.username
             return redirect('list')
@@ -44,20 +43,18 @@ def login(request):
     if form.is_valid():
         username = form.cleaned_data['username']
         password = form.cleaned_data['password']
-        print(username)
         user = authenticate(request, username=username, password=password)
         login(request)
-        print(request)
+        print(user)
         if user:
             print('Auth')
     return render(request, 'registration/logint.html', {'title': title, 'error': error, 'form': form, 'user': user})
 
 @login_required
 def logout(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('login')
-
+    request.session.clear()
+    request.session.flush()
+    return redirect('login')
 
 def profile(request):
     title = 'Perfil'
@@ -80,10 +77,11 @@ def list(request):
         ctx =  cur.fetchall()
         cur.close()
         cnx.close()
+        total = len(ctx)
         paginator = Paginator(ctx, 15)
         page_number = request.GET.get("page")
         page_obj = paginator.get_page(page_number)
-    return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj})
+    return render(request, 'listado.html', {'ctx': ctx, 'title': title, 'page_obj': page_obj, 'total': total})
 
 
 @login_required
@@ -119,3 +117,25 @@ def search(request):
     cnx.close()
     print(row)
     return render(request, 'search.html', {'form': form, 'ctx': row})
+
+
+def delete(request, field1):
+    field1 = field1
+    ttile = 'Eliminar registro'
+    error = None
+    if request.method == 'POST':
+        cnx = sqlite3.connect('db.sqlite3')
+        cur = cnx.cursor()
+        cur.execute('DELETE FROM estructurasApp_basep1 WHERE field1 = ?', [field1,])
+        cnx.commit()
+        cur.close()
+        cnx.close()
+    return redirect('list')
+
+
+def edit(request, field1):
+    field1 = field1
+    error = None
+    title = 'Editar registro'
+    form = RegistroEditForm(request.GET)
+    return render(request, 'edit.html', {'form': form, 'error': error, 'title': title}) 

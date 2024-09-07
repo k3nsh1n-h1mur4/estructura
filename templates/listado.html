@@ -10,7 +10,8 @@
 <div class="container">
     <div class="row">
 	<div class="col">
-	    <span style="font-size: 18px; color: red;">Usuario Actual:</span>{{ user.get_username }}
+	    <span style="font-size: 18px; color: red;">Usuario Actual:</span>{{ user.get_username }}<br/>	    
+	    <span style="font-size: 18px; color: red;">Total de Registros al momento:</span>{{ total  }}
 {% if user.is_authenticated %}
 	</div>
     </div>
@@ -34,9 +35,15 @@
               <td>{{ ctx.3 }}</td>
               <td>{{ ctx.4 }}</td>
               <td>
+		<div class="cont-btns">
                 <div class="info">
-                  <a href="{% url 'info' ctx.1 %}">Ver Información</a>
+                  <a href="{% url 'info' ctx.1 %}" class="btn btn-primary">Ver Información</a>
                 </div>
+		<div class="info">
+                  <a href="{% url 'delete' ctx.1 %}" class="btn btn-danger">Eliminar Registro</a>
+                </div>
+		</div>
+
               </td>
             </tr>
             {% endfor %}

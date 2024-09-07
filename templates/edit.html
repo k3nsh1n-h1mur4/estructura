@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% import '_helpers.html' %}
+
+
+{% block title %}
+ {{ title }}
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+	<input type="hidden" value="{% csrf_token %}">
+
+	
+
+    </form>
+{% endblock %}
